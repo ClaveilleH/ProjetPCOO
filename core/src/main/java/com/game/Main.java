@@ -15,11 +15,13 @@ public class Main extends Game {
     OrthographicCamera camera;
     TiledMapRenderer mapRenderer;
     int x;
+    int y;
 
 
     @Override
     public void create() {
         this.x = 0;
+        this.y = 0;
 
         //setScreen(new FirstScreen());
         float w = Gdx.graphics.getWidth();
@@ -50,10 +52,10 @@ public class Main extends Game {
 
 
     public void draw() {
-        camera.position.set(this.x, camera.viewportHeight / 2, 0);
+        camera.position.set(this.x, this.y, 0);
         camera.update();
         this.x += 1;
-
+        this.y += 1;
         mapRenderer.setView(camera);
         System.out.println("Map rendered"+ this.x);
         mapRenderer.render();
