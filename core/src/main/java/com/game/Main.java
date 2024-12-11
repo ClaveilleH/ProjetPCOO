@@ -12,32 +12,36 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 public class Main extends Game {
 //    Texture img;
     TiledMap tiledMap;
-    OrthographicCamera camera;
-    TiledMapRenderer mapRenderer;
     int x;
     int y;
+    View view;
+    Player player;
 
 
     @Override
     public void create() {
-        this.x = 0;
-        this.y = 0;
-
-        //setScreen(new FirstScreen());
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-        System.out.println("w = " + w + ", h = " + h);
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, w, h);
-        camera.update();
-        System.out.println("Camera update");
-
         tiledMap = loadMap();
         System.out.println("Map loaded");
-        mapRenderer = new OrthoCachedTiledMapRenderer(tiledMap);
+
+        this.view = new View(tiledMap);
+        this.player = Player.getPlayer();
+
+        float width = Gdx.graphics.getWidth();
+        float height = Gdx.graphics.getHeight();
+
+        this.player.setX((int) (width / 2));
+        this.player.setY((int) (height / 2));
+
+
+
+        System.out.println("w = " + width + ", h = " + height);
+//        System.out.println("Camera update");
+
+//        mapRenderer = new OrthoCachedTiledMapRenderer(tiledMap);
         System.out.println("TiledMap loaded");
 
-        mapRenderer.setView(camera);
+//        mapRenderer.setView(camera);
+
     }
 
     public TiledMap loadMap() {
@@ -46,18 +50,7 @@ public class Main extends Game {
 
     @Override
     public void render() {
-        draw();
+        this.view.render();
 
-    }
-
-
-    public void draw() {
-        camera.position.set(this.x, this.y, 0);
-        camera.update();
-        this.x += 1;
-        this.y += 1;
-        mapRenderer.setView(camera);
-        System.out.println("Map rendered"+ this.x);
-        mapRenderer.render();
     }
 }
