@@ -18,6 +18,11 @@
             "scaleInEditor": 1
         }
     },
+    "last.imagePath": "S:/dev/PCOO/ProjetPCOO/assets/map/tileSets/pngs",
+    "last.worldFilePath": "S:/dev/PCOO/ProjetPCOO/assets/map",
+    "loadedWorlds": [
+        "S:/dev/PCOO/ProjetPCOO/assets/map/tt.world"
+    ],
     "openFiles": [
         "tileSets/terrain_atlas.tsx",
         "map1.tmx"
@@ -26,5 +31,6 @@
     "recentFiles": [
         "tileSets/terrain_atlas.tsx",
         "map1.tmx"
-    ]
+    ],
+    "tileset.lastUsedFormat": "tsx"
 }
