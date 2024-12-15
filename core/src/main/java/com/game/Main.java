@@ -16,7 +16,7 @@ public class Main extends Game {
     int y;
     View view;
     Player player;
-
+    GameModel game;
 
     @Override
     public void create() {
@@ -32,6 +32,7 @@ public class Main extends Game {
         this.player.setX((int) (width / 2));
         this.player.setY((int) (height / 2));
 
+        this.game = GameModel.getGame();
 
 
         System.out.println("w = " + width + ", h = " + height);
@@ -53,4 +54,9 @@ public class Main extends Game {
         this.view.render();
 
     }
+
+    private void input() {
+        this.game.input();
+    }
+
 }
