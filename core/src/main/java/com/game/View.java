@@ -33,7 +33,7 @@ public class    View {
         this.camera.update();
         this.mapRenderer.setView(this.camera);
         this.mapRenderer.render();
-//        this.player.render();
+        this.player.render();
 
 //        System.out.println("Map rendered"+ this.player.getX() +" "+ this.player.getY());
     }

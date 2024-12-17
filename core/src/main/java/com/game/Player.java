@@ -19,22 +19,27 @@ public class Player extends Entity {
 
     private Player(int x, int y) {
         super(x, y);
-//
-//        this.texture = new Texture(Gdx.files.internal("assets/sprites/Santa.png"));
-//
-//        TextureRegion[][] temp = TextureRegion.split(this.texture, this.texture.getWidth() / FRAME_COLS, this.texture.getHeight() / FRAME_ROWS);
-//
-//        TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-//        int index = 0;
-//        for (int i = 0; i < FRAME_COLS; i++) {
-//            for (int j = 0; j < FRAME_ROWS; j++) {
-//                walkFrames[index++] = temp[i][j];
-//            }
-//        }
-//        this.animation = new Animation<TextureRegion>(0.25f, walkFrames);
-//
-//        this.batch = new SpriteBatch();
-//        stateTime = 0f;
+
+        this.texture = new Texture(Gdx.files.internal("sprites/Santa.png"));
+
+        TextureRegion[][] temp = TextureRegion.split(this.texture, this.texture.getWidth() / FRAME_COLS, this.texture.getHeight() / FRAME_ROWS);
+
+        TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+        int index = 0;
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[i].length; j++) {
+                walkFrames[index++] = temp[i][j];
+            }
+        }
+        // for (int i = 0; i < FRAME_COLS; i++) {
+        //     for (int j = 0; j < FRAME_ROWS; j++) {
+        //         walkFrames[index++] = temp[i][j];
+        //     }
+        // }
+        this.animation = new Animation<TextureRegion>(0.25f, walkFrames);
+
+        this.batch = new SpriteBatch();
+        stateTime = 0f;
     }
 
     public static Player getPlayer() {
