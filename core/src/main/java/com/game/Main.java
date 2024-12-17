@@ -2,11 +2,8 @@ package com.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 
 
 public class Main extends Game {
@@ -29,8 +26,8 @@ public class Main extends Game {
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
 
-        this.player.setX((int) (width / 2));
-        this.player.setY((int) (height / 2));
+        this.player.setPosX((int) (width / 2));
+        this.player.setPosY((int) (height / 2));
 
         this.game = GameModel.getGame();
 
@@ -43,6 +40,9 @@ public class Main extends Game {
 
 //        mapRenderer.setView(camera);
 
+        Gdx.input.setInputProcessor(new PlayerInputProcessor(player));
+
+
     }
 
     public TiledMap loadMap() {
@@ -51,12 +51,20 @@ public class Main extends Game {
 
     @Override
     public void render() {
-        this.view.render();
+        float delta = Gdx.graphics.getDeltaTime();
+        this.view.render(delta);
 
+    }
+
+
+    public void update() {
+        System.out.println("update");
     }
 
     private void input() {
         this.game.input();
+
+        System.out.println("Input pressed");
     }
 
 }

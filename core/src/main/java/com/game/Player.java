@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player extends Entity {
     private static Player player;
-    private Texture texture;
-    private SpriteBatch batch;
-    private Animation<TextureRegion> upWalkAnimation;
-    private Animation<TextureRegion> downWalkAnimation;
-    private Animation<TextureRegion> rightWalkAnimation;
-    private Animation<TextureRegion> leftWalkAnimation;
+    private final Texture texture;
+    private Animation<TextureRegion> currentAnimation;
+
+
+    private final Animation<TextureRegion> upWalkAnimation;
+    private final Animation<TextureRegion> downWalkAnimation;
+    private final Animation<TextureRegion> rightWalkAnimation;
+    private final Animation<TextureRegion> leftWalkAnimation;
     float stateTime;
 
     private static final int FRAME_COLS = 13, FRAME_ROWS = 46;
@@ -30,24 +32,27 @@ public class Player extends Entity {
 
         int walkNb = 8;
 
-        TextureRegion[] upWalkAnimation = new TextureRegion[walkNb];
-        TextureRegion[] downWalkAnimation = new TextureRegion[walkNb];
-        TextureRegion[] rightWalkAnimation = new TextureRegion[walkNb];
-        TextureRegion[] leftWalkAnimation = new TextureRegion[walkNb];
+        TextureRegion[] temp_upWalkAnimation = new TextureRegion[walkNb];
+        TextureRegion[] temp_downWalkAnimation = new TextureRegion[walkNb];
+        TextureRegion[] temp_rightWalkAnimation = new TextureRegion[walkNb];
+        TextureRegion[] temp_leftWalkAnimation = new TextureRegion[walkNb];
 
         int start = 8;
         int index = 0;
         for (int j = 1; j < 9; j++) { //-----------------------------------------------changer 9
-            upWalkAnimation[index] = new TextureRegion(temp[start][j]);
-            downWalkAnimation[index] = new TextureRegion(temp[start + 1][j]);
-            rightWalkAnimation[index] = new TextureRegion(temp[start + 2][j]);
-            leftWalkAnimation[index] = new TextureRegion(temp[start + 3][j]);
+            temp_upWalkAnimation[index] = new TextureRegion(temp[start][j]);
+            temp_leftWalkAnimation[index] = new TextureRegion(temp[start + 1][j]);
+            temp_downWalkAnimation[index] = new TextureRegion(temp[start + 2][j]);
+            temp_rightWalkAnimation[index] = new TextureRegion(temp[start + 3][j]);
             index++;
         }
-        this.upWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, upWalkAnimation);
+        this.upWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_upWalkAnimation);
+        this.downWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_downWalkAnimation);
+        this.rightWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_rightWalkAnimation);
+        this.leftWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_leftWalkAnimation);
+        this.currentAnimation = this.downWalkAnimation;
 //        this.animation = new Animation<TextureRegion>(0.25f, walkFrames);
 
-        this.batch = new SpriteBatch();
         stateTime = 0f;
     }
 
@@ -58,15 +63,37 @@ public class Player extends Entity {
         return player;
     }
 
-    public void render() {
+    public void render(SpriteBatch batch) {
 
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime
-        TextureRegion currentFrame = this.upWalkAnimation.getKeyFrame(stateTime, true);
-        this.batch.begin();
-        this.batch.draw(currentFrame, 50, 50); // Draw current frame at (50, 50)
-        this.batch.end();
+        TextureRegion currentFrame = this.currentAnimation.getKeyFrame(stateTime, true);
+        batch.draw(currentFrame, super.getPosX(), super.getPosY()); // Draw current frame at (50, 50)
+    }
+
+    public TextureRegion getCurrentFrame(float batch) {
+        return this.currentAnimation.getKeyFrame(batch, true);
+    }
+
+    public void setCurrentAnimation(Animation<TextureRegion> currentAnimation) {
+        this.currentAnimation = currentAnimation;
+    }
+
+    public Animation<TextureRegion> getUpWalkAnimation() {
+        return upWalkAnimation;
+    }
+
+    public Animation<TextureRegion> getDownWalkAnimation() {
+        return downWalkAnimation;
+    }
+
+    public Animation<TextureRegion> getRightWalkAnimation() {
+        return rightWalkAnimation;
+    }
+
+    public Animation<TextureRegion> getLeftWalkAnimation() {
+        return leftWalkAnimation;
     }
 }

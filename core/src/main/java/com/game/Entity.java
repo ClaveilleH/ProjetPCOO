@@ -1,34 +1,34 @@
 package com.game;
 
 public class Entity {
-    private int x;
-    private int y;
+    private int posX;
+    private int posY;
 
     private int hp;
     public Entity(int x, int y ) {
-        this.x = x;
-        this.y = y;
+        this.posX = x;
+        this.posY = y;
         this.hp = 100;
     }
 
-    public int getX() {
-        return x;
+    public int getPosX() {
+        return this.posX;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setPosX(int posX) {
+        this.posX = posX;
     }
 
-    public int getY() {
-        return y;
+    public int getPosY() {
+        return this.posY;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 
     public int getHp() {
-        return hp;
+        return this.hp;
     }
 
     public void setHp(int hp) {
