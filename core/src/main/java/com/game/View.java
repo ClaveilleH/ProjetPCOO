@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.game.controls.ControlsManager;
 
 public class    View {
     private Player player;
     private OrthographicCamera camera;
     private TiledMapRenderer mapRenderer;
     private SpriteBatch batch;
+    private ControlsManager controlsManager;
 
 
     public View(TiledMap tiledMap) {
@@ -24,7 +26,7 @@ public class    View {
         this.mapRenderer = new OrthoCachedTiledMapRenderer(tiledMap);
         this.player = Player.getPlayer();
         this.batch = new SpriteBatch();
-
+        this.controlsManager = ControlsManager.getInstance();
 
     }
 
@@ -32,6 +34,7 @@ public class    View {
         this.camera.position.set(this.player.getPosX(), this.player.getPosY(), 0);
 
         this.camera.update();
+        this.controlsManager.update();
 //        this.player.update();
 
         this.mapRenderer.setView(this.camera);

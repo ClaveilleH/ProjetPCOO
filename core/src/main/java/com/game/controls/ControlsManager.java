@@ -15,6 +15,14 @@ public class ControlsManager {
 
     private ControlsManager() {
         this.movementUp = new MovementUp(Input.Keys.UP);
+        this.movementDown = new MovementDown(Input.Keys.DOWN);
+        this.movementUp.setNext(this.movementDown);
+
+    }
+
+    public void update() {
+//        System.out.println("update");
+
     }
 
 

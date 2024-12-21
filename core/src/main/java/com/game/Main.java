@@ -8,12 +8,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class Main extends Game {
 //    Texture img;
-    TiledMap tiledMap;
-    int x;
-    int y;
-    View view;
-    Player player;
-    GameModel game;
+    private TiledMap tiledMap;
+    private int x;
+    private int y;
+    private View view;
+    private Player player;
+    private GameModel game;
+    private PlayerInputProcessor playerInputProcessor;
 
     @Override
     public void create() {
@@ -39,7 +40,7 @@ public class Main extends Game {
         System.out.println("TiledMap loaded");
 
 //        mapRenderer.setView(camera);
-
+        this.playerInputProcessor =
         Gdx.input.setInputProcessor(new PlayerInputProcessor(player));
 
 
