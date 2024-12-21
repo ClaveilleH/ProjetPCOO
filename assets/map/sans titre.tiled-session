@@ -1,0 +1,52 @@
+{
+    "activeFile": "map1.tmx",
+    "expandedProjectPaths": [
+        "tileSets",
+        "."
+    ],
+    "fileStates": {
+        "map1.tmx": {
+            "scale": 1,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 2620,
+                "y": 517.5
+            }
+        },
+        "tileSets/build_atlas.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tileSets/obj_misk_atlas.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tileSets/terrain_atlas.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.externalTilesetPath": "/home/hugo/Documents/Cours/S5/PCOO/ProjetPCOO/assets/map/tileSets",
+    "last.imagePath": "/home/hugo/Documents/Cours/S5/PCOO/ProjetPCOO/assets/map/tileSets/pngs",
+    "last.worldFilePath": "S:/dev/PCOO/ProjetPCOO/assets/map",
+    "loadedWorlds": [
+        "S:/dev/PCOO/ProjetPCOO/assets/map/tt.world"
+    ],
+    "openFiles": [
+        "tileSets/terrain_atlas.tsx",
+        "map1.tmx",
+        "tileSets/obj_misk_atlas.tsx",
+        "tileSets/build_atlas.tsx"
+    ],
+    "project": "sans titre.tiled-project",
+    "recentFiles": [
+        "tileSets/terrain_atlas.tsx",
+        "tileSets/build_atlas.tsx",
+        "tileSets/obj_misk_atlas.tsx",
+        "map1.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
