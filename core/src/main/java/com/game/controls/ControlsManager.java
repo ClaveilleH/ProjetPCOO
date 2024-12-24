@@ -43,8 +43,8 @@ public class ControlsManager {
         ArrayList<Integer> list = this.playerInputProcessor.getKeysPressed();
         if ( !( list == null || list.isEmpty())) {
             this.player.setWalking(true);
-            System.out.println(this.player.isWalking());
-            System.out.println(list.toString());
+//            System.out.println(this.player.isWalking());
+//            System.out.println(list.toString());
             for (int key : list) {
                 this.firstChain.pass(key);
 //                System.out.println(key);

@@ -13,7 +13,7 @@ public class PlayerInputProcessor implements InputProcessor {
     private PlayerInputProcessor(Player player) {
         this.player = player;
         this.keysPressed = new ArrayList<>();
-        System.out.println("-------->"+this.keysPressed);
+//        System.out.println("-------->"+this.keysPressed);
     }
 
     public static PlayerInputProcessor getInstance(Player player) {
@@ -48,7 +48,7 @@ public class PlayerInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        System.out.println(this.keysPressed + Integer.toString(keycode));
+//        System.out.println(this.keysPressed + Integer.toString(keycode));
          if (this.keysPressed.contains(keycode)) {
              this.keysPressed.remove(this.keysPressed.indexOf(keycode));
          }

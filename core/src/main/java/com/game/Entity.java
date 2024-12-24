@@ -1,8 +1,11 @@
 package com.game;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 public class Entity {
     private int posX;
     private int posY;
+    private Sprite sprite;
 
     private int hp;
     public Entity(int x, int y ) {

@@ -31,21 +31,27 @@ public class Main extends Game {
 //        System.out.println(this.view.);
 //        this.game = Game.getI
 
+
+        int tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
+        int tileHeight = tiledMap.getProperties().get("tileheight", Integer.class);
+
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
+        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tileWidth;
+        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tileHeight;
 
         System.out.println("Width: " + width
         + " Height: " + height);
 
-        this.player.setPosX((int) (width / 2));
-        this.player.setPosY((int) (height / 2));
+        this.player.setPosX((int) (mapWidth / 2));
+        this.player.setPosY((int) (mapHeight / 2));
 
 //        this.player.setPosX((int) (width - 1));
 //        this.player.setPosY((int) (height - 1));
 
 
-//        this.player.setPosX((int) (150));
-//        this.player.setPosY((int) (150));
+        this.player.setPosX((int) (2850));
+        this.player.setPosY((int) (2950));
 
         this.gameModel = GameModel.getGame();
 

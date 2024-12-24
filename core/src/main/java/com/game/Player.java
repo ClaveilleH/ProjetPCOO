@@ -4,12 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player extends Entity {
     private static Player player;
+    private Sprite sprite;
+
     private final Texture texture;
+    private final float textureWidth;
+    private final float textureHeight;
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion> currentStandingAnimation;
 
@@ -71,6 +76,16 @@ public class Player extends Entity {
 //        this.animation = new Animation<TextureRegion>(0.25f, walkFrames);
 
         stateTime = 0f;
+
+        this.sprite = new Sprite(temp[start][0]);
+
+
+        float viewportWidth = Gdx.graphics.getWidth();
+        float viewportHeight = Gdx.graphics.getHeight();
+        this.textureWidth = (float) this.texture.getWidth() / FRAME_COLS;
+        this.textureHeight = (float) this.texture.getHeight() / FRAME_ROWS;
+
+        this.sprite.setPosition(viewportWidth / 2 - this.textureWidth / 2, viewportHeight / 2 - this.textureHeight / 2);
     }
 
     public static Player getPlayer() {
@@ -78,24 +93,48 @@ public class Player extends Entity {
             player = new Player(0, 0);
         }
         return player;
+
     }
 
     public void render(SpriteBatch batch) {
-
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
-        // Get current frame of animation for the current stateTime
+//        // Get current frame of animation for the current stateTime
         TextureRegion currentFrame;
-
+//
         if (this.walking) {
-            System.out.println("aaaaaa");
             currentFrame = this.currentAnimation.getKeyFrame(stateTime, true);
         } else {
             currentFrame = this.currentStandingAnimation.getKeyFrame(stateTime, true);
         }
 
-        batch.draw(currentFrame, super.getPosX(), super.getPosY()); // Draw current frame at (50, 50)
+        this.sprite.setRegion(currentFrame);
+
+        sprite.draw(batch);
+    }
+
+    public void update(float mapWidth, float mapHeight) {
+        if (this.getPosX() < 0) { this.setPosX(0); }
+        if (this.getPosY() < 0) { this.setPosY(0); }
+        if (this.getPosX() > mapWidth) { this.setPosX((int) mapWidth); }
+        if (this.getPosY() > mapHeight) { this.setPosY((int) mapHeight); }
+
+    }
+
+    public void setSpritePosX(float x) {
+        this.sprite.setPosition(x, this.sprite.getY());
+    }
+
+    public int getSpritePosX() {
+        return (int) this.sprite.getX();
+    }
+
+    public void setSpritePosY(float y) {
+        this.sprite.setPosition(this.sprite.getX(), y);
+    }
+
+    public int getSpritePosY() {
+        return (int) this.sprite.getY();
     }
 
     public TextureRegion getCurrentFrame(float batch) {
@@ -132,5 +171,13 @@ public class Player extends Entity {
 
     public void setWalking(boolean walking) {
         this.walking = walking;
+    }
+
+    public float getTextureHeight() {
+        return textureHeight;
+    }
+
+    public float getTextureWidth() {
+        return textureWidth;
     }
 }

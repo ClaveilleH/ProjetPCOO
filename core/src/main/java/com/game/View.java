@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.game.controls.ControlsManager;
 
 public class    View {
@@ -18,14 +19,15 @@ public class    View {
     private SpriteBatch batch;
     private ControlsManager controlsManager;
 
-    final float scale = 32f;
 
 
     public View(TiledMap tiledMap) {
         this.tiledMap = tiledMap;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+
         this.camera = new OrthographicCamera();
+//        this.camera.setToOrtho(false, mapWidth, mapHeight);
         this.camera.setToOrtho(false, w, h);
         System.out.println("w = " + w + ", h = " + h);
 //        camera.update(); // pas sur de le garde ca sera fait au premier update
@@ -39,40 +41,68 @@ public class    View {
 
     public void update(float delta) {
         this.controlsManager.update();
+
+
+        // Positionne la caméra directement sur le joueur
+        float playerX = this.player.getPosX();
+        float playerY = this.player.getPosY();
+
+
+        int tileWidth = tiledMap.getProperties().get("tilewidth", Integer.class);
+        int tileHeight = tiledMap.getProperties().get("tileheight", Integer.class);
+
+        // Limite la position de la caméra pour éviter que le joueur sorte de l'écran
+        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tileWidth;
+        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tileHeight;
+        float viewportWidth = Gdx.graphics.getWidth();
+        float viewportHeight = Gdx.graphics.getHeight();
+
+        float centerW = viewportWidth / 2 - this.player.getTextureWidth() / 2;
+        float centerH = viewportHeight / 2 - this.player.getTextureHeight() / 2;
+
+        this.player.update(mapWidth, mapHeight);
+
+
+        // Empêche la caméra de dépasser les bords de la carte
+        float cameraX = Math.max(viewportWidth / 2, Math.min(playerX, mapWidth - viewportWidth / 2));
+        float cameraY = Math.max(viewportHeight / 2, Math.min(playerY, mapHeight - viewportHeight / 2));
+
+
+        cameraX = playerX;
+        if (playerX < viewportWidth / 2) { // bord gauche
+            cameraX = viewportWidth / 2;
+            this.player.setSpritePosX(centerW - (cameraX - this.player.getPosX()));
+        } else if (playerX > mapWidth - viewportWidth / 2) {
+            cameraX = mapWidth - viewportWidth / 2;
+            this.player.setSpritePosX(centerW - (cameraX - this.player.getPosX()));
+        }
+
+        cameraY = playerY;
+        if (playerY < viewportHeight / 2) {
+            cameraY = viewportHeight / 2;
+            this.player.setSpritePosY(centerH - (cameraY - this.player.getPosY()));
+        }else if(playerY > mapHeight - viewportHeight / 2){
+            cameraY = mapHeight - viewportHeight / 2;
+            this.player.setSpritePosY(centerH - (cameraY - this.player.getPosY()));
+        }
+
+        // Applique les nouvelles positions à la caméra
+        this.camera.position.set(cameraX, cameraY, 0);
 //        this.camera.position.lerp(
 //            new Vector3(this.player.getPosX(), this.player.getPosY(), 0),
 //            0.1f+2  // Facteur de lissage
 //        );
-
-        // Positionne la caméra directement sur le joueur
-        float cameraX = this.player.getPosX();
-        float cameraY = this.player.getPosY();
-
-        // Limite la position de la caméra pour éviter que le joueur sorte de l'écran
-        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * scale;
-        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * scale;
-        float viewportWidth = Gdx.graphics.getWidth();
-        float viewportHeight = Gdx.graphics.getHeight();
-
-        // Empêche la caméra de dépasser les bords de la carte
-        cameraX = Math.max(viewportWidth / 2, Math.min(cameraX, mapWidth - viewportWidth / 2));
-        cameraY = Math.max(viewportHeight / 2, Math.min(cameraY, mapHeight - viewportHeight / 2));
-
-        // Applique les nouvelles positions à la caméra
-        this.camera.position.set(cameraX, cameraY, 0);
-
         this.camera.update();
-
-        System.out.println(this.player.getPosX() + " " + this.player.getPosY());
-        System.out.println("cam : " + this.camera.position.x + " " + this.camera.position.y);
 
     }
 
     public void render(float delta) {
-//        DebugRenderer.drawGrid(this.camera); // Nécessite une classe utilitaire ou dessine manuellement
+        ScreenUtils.clear(1,0,0,1,true);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
+        //        DebugRenderer.drawGrid(this.camera); // Nécessite une classe utilitaire ou dessine manuellement
 
 
-        this.controlsManager.update();
+//        this.controlsManager.update();
 
 //        this.camera.position.set(this.player.getPosX(), this.player.getPosY(), 0);
 //        this.camera.position.set(639, , 0);
@@ -82,7 +112,6 @@ public class    View {
 //        );
 
 //        this.camera.update();
-    //    this.player.update();
 
         this.mapRenderer.setView(this.camera);
         this.mapRenderer.render();
