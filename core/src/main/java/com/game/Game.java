@@ -1,16 +1,18 @@
 package com.game;
 
+import com.badlogic.gdx.Gdx;
 import com.game.controls.ControlsManager;
 
 public class Game {
     //stock toutes les classes du jeu
     private static Game instance;
-    private PlayerInputProcessor playerInputProcessor;
-    private ControlsManager controlsManager;
+    public PlayerInputProcessor playerInputProcessor;
+    public ControlsManager controlsManager;
 
 
     private Game() {
-
+        this.controlsManager = ControlsManager.getInstance();
+//        this.playerInputProcessor = new PlayerInputProcessor();
     }
 
     public static Game getInstance() {

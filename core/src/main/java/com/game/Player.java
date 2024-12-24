@@ -11,13 +11,21 @@ public class Player extends Entity {
     private static Player player;
     private final Texture texture;
     private Animation<TextureRegion> currentAnimation;
+    private Animation<TextureRegion> currentStandingAnimation;
 
 
     private final Animation<TextureRegion> upWalkAnimation;
     private final Animation<TextureRegion> downWalkAnimation;
     private final Animation<TextureRegion> rightWalkAnimation;
     private final Animation<TextureRegion> leftWalkAnimation;
+    private final Animation<TextureRegion> standingUpAnimation;
+    private final Animation<TextureRegion> standingDownAnimation;
+    private final Animation<TextureRegion> standingRightAnimation;
+    private final Animation<TextureRegion> standingLeftAnimation;
+
+
     float stateTime;
+    private boolean walking;
 
     private static final int FRAME_COLS = 13, FRAME_ROWS = 46;
     private static final float FRAME_DURATION = 0.25f;
@@ -46,11 +54,20 @@ public class Player extends Entity {
             temp_rightWalkAnimation[index] = new TextureRegion(temp[start + 3][j]);
             index++;
         }
+
         this.upWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_upWalkAnimation);
         this.downWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_downWalkAnimation);
         this.rightWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_rightWalkAnimation);
         this.leftWalkAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp_leftWalkAnimation);
+
+        this.standingUpAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp[start][0]);
+        this.standingLeftAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp[start + 1][0]);
+        this.standingDownAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp[start + 2][0]);
+        this.standingRightAnimation = new Animation<TextureRegion>(FRAME_DURATION, temp[start + 3][0]);
+
         this.currentAnimation = this.downWalkAnimation;
+        this.currentStandingAnimation = this.standingDownAnimation;
+        this.walking = false;
 //        this.animation = new Animation<TextureRegion>(0.25f, walkFrames);
 
         stateTime = 0f;
@@ -69,7 +86,15 @@ public class Player extends Entity {
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime
-        TextureRegion currentFrame = this.currentAnimation.getKeyFrame(stateTime, true);
+        TextureRegion currentFrame;
+
+        if (this.walking) {
+            System.out.println("aaaaaa");
+            currentFrame = this.currentAnimation.getKeyFrame(stateTime, true);
+        } else {
+            currentFrame = this.currentStandingAnimation.getKeyFrame(stateTime, true);
+        }
+
         batch.draw(currentFrame, super.getPosX(), super.getPosY()); // Draw current frame at (50, 50)
     }
 
@@ -79,6 +104,10 @@ public class Player extends Entity {
 
     public void setCurrentAnimation(Animation<TextureRegion> currentAnimation) {
         this.currentAnimation = currentAnimation;
+    }
+
+    public void setCurrentStandingAnimation(Animation<TextureRegion> currentStandingAnimation) {
+        this.currentStandingAnimation = currentStandingAnimation;
     }
 
     public Animation<TextureRegion> getUpWalkAnimation() {
@@ -95,5 +124,13 @@ public class Player extends Entity {
 
     public Animation<TextureRegion> getLeftWalkAnimation() {
         return leftWalkAnimation;
+    }
+
+    public boolean isWalking() {
+        return walking;
+    }
+
+    public void setWalking(boolean walking) {
+        this.walking = walking;
     }
 }

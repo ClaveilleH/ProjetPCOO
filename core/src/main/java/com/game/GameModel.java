@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 public class GameModel {
     private static GameModel game;
     String name;
+    private int playerSpeed;
 
     private GameModel(){
         this.name = "";
+        this.playerSpeed = 1;
     }
 
     public static GameModel getGame(){
@@ -24,5 +26,13 @@ public class GameModel {
 //            bucketSprite.translateX(speed); // Move the bucket right
 //        }
         System.out.println(Gdx.input.getX());
+    }
+
+    public int getPlayerSpeed() {
+        return playerSpeed;
+    }
+
+    public void setPlayerSpeed(int playerSpeed) {
+        this.playerSpeed = playerSpeed;
     }
 }

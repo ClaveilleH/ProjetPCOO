@@ -1,43 +1,20 @@
 package com.game.controls;
 
+import com.game.GameModel;
 import com.game.Player;
 
 
-public class MovementUp implements Movement{
-    private int key;
-    private Player player;
-    private Movement nextMovement;
+public class MovementUp extends MovementBase implements Movement {
 
     public MovementUp(int key) {
-        this.key = key;
-        this.player = Player.getPlayer();
+        super(key);
     }
 
     @Override
-    public void setNext(Movement next) {
-        this.nextMovement = next;
-    }
-
-    public boolean pass(int key){
-        if (this.key == key){
-            this.action();
-            return true;
-        }
-        return this.nextMovement.pass(key);
-    }
-
-    @Override
-    public boolean action(){
-        player.setPosY(player.getPosY() + 10);
-        player.setCurrentAnimation(player.getUpWalkAnimation());
+    public boolean action() {
+        super.player.setPosY(super.player.getPosY() + super.model.getPlayerSpeed());
+        super.player.setCurrentAnimation(super.player.getUpWalkAnimation());
+//        su
         return true;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public void setKey(int key) {
-        this.key = key;
     }
 }
